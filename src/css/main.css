@@ -1,0 +1,40 @@
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+#topo  {
+    background-color: #222222;
+    min-height: 100px;
+    color: #fff;
+}
+
+.drag .col-xs-2 {
+    color: #fff;
+    text-align: center;
+    height: 100px;
+    margin: 5px;
+    background-color: #4b0304;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#stage {
+    background-color: #222222;
+}
+#stage-indicator {
+    height: 10%;
+    background-color: #222222;
+}
+
