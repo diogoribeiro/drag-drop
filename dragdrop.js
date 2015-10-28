@@ -32,17 +32,19 @@
                     top: top
                 });
 
-                settings.onMove(element, collided(stage, copyElement));
+                var collidedTarget = collided(stage, copyElement);
+                settings.onMove(element, collidedTarget);
             });
 
             $(document).mouseup(function cancelStopDrag(){
                 if(stage){
-                    if(collided(stage, copyElement)){
+                    var collidedTarget = collided(stage, copyElement);
+                    if(collidedTarget){
                         var e = element.clone();
                         copyCss(element, e);
-                        stage.append(e);
+                        collidedTarget.append(e);
                         element.hide();
-                        settings.onCollide(element, stage);
+                        settings.onCollide(element, collidedTarget);
                     }
 
                     copyElement.remove();
@@ -76,22 +78,30 @@ function copyCss(sourceElement, targetElement) {
     }
 }
 
-function collided(staticElement, portableElement){
-    var staticInitX = staticElement.offset().left;
-    var staticEndX = staticInitX + staticElement.outerWidth();
-    var staticInitY = staticElement.offset().top;
-    var staticEndY = staticInitY + staticElement.outerHeight();
+function collided(target, element){
+    var collidedTarget = undefined;
+    $(target).each(function(){
+        var staticInitX = $(this).offset().left;
+        var staticEndX = staticInitX + $(this).outerWidth();
+        var staticInitY = $(this).offset().top;
+        var staticEndY = staticInitY + $(this).outerHeight();
 
-    var portableInitX = portableElement.offset().left;
-    var portableEndX = portableInitX + portableElement.outerWidth();
-    var portableInitY = portableElement.offset().top;
-    var portableEndY = portableInitY + portableElement.outerHeight();
+        var portableInitX = element.offset().left;
+        var portableEndX = portableInitX + element.outerWidth();
+        var portableInitY = element.offset().top;
+        var portableEndY = portableInitY + element.outerHeight();
 
-    var colidedInX = (portableInitX >= staticInitX && portableInitX <= staticEndX) ||
-        (portableEndX >= staticInitX && portableEndX <= staticEndX);
+        var colidedInX = (portableInitX >= staticInitX && portableInitX <= staticEndX) ||
+            (portableEndX >= staticInitX && portableEndX <= staticEndX);
 
-    var colidedInY = (portableInitY >= staticInitY && portableInitY <= staticEndY) ||
-        (portableEndY >= staticInitY && portableEndY <= staticEndY);
+        var colidedInY = (portableInitY >= staticInitY && portableInitY <= staticEndY) ||
+            (portableEndY >= staticInitY && portableEndY <= staticEndY);
 
-    return colidedInX && colidedInY;
+        if(colidedInX && colidedInY){
+            collidedTarget = $(this);
+            return false;
+        }
+    });
+
+    return collidedTarget;
 }

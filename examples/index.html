@@ -23,17 +23,18 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12" id="topo">
-                    <h3>Plugin Drag&Drop</h3>
+                    <h3>Drag&Drop</h3>
+                    <h5>Jquery Plugin</h5>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12 drag">
-                    <div class="col-xs-2">Caixa 1</div>
-                    <div class="col-xs-2">Caixa 2</div>
-                    <div class="col-xs-2">Caixa 3</div>
-                    <div class="col-xs-2">Caixa 4</div>
-                    <div class="col-xs-2">Caixa 5</div>
+                <div class="col-md-6 drag">
+                    <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-2">&nbsp;</div>
                 </div>
 
             </div>
@@ -44,8 +45,12 @@
                 <div class="row" id="stage-indicator">
                     &nbsp;
                 </div>
-                <div class="row" id="stage">
-                    &nbsp;
+                <div class="row hide" id="stage">
+                    <div class="col-md-6">
+                        <div class="col-xs-3 stage">&nbsp;</div>
+                        <div class="col-xs-3 stage">&nbsp;</div>
+                        <div class="col-xs-3 stage">&nbsp;</div>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -58,31 +63,30 @@
         <script>
             $(document).ready(function(){
                 $(".drag").drag({
-                    stage: "#stage",
+                    stage: ".stage",
                     onDrag: function(element){
-                        $("#stage-indicator").hide();
-                        $("#stage").show();
+                        $("#stage").removeClass("hide");
                         $("#stage").animate({
                             height: 300
                         }, 1000);
                     },
                     onCollide: function(element, stage){
                     },
-                    onMove: function(element, collided){
-                        if(collided){
-                            $("#stage").css("background-color", "#ff0000");
+                    onMove: function(element, collidedTarget){
+                        if(collidedTarget){
+                            $(".stage").css("background-color", "#222");
+                            collidedTarget.css("background-color", "#ff0000");
                         } else {
-                            $("#stage").css("background-color", "#00000A");
+                            $(".stage").css("background-color", "#222");
                         }
                     },
                     afterDrag: function(){
                         $("#stage").animate({
                             height: 0
                     }, 1000, function(){
-                            $("#stage").hide();
-                            $("#stage-indicator").show();
+                            $("#stage").addClass("hide");
                         });
-                        $("#stage").css("background-color", "#00000A");
+                        $(".stage").css("background-color", "#222");
                     }
                 });
             });
